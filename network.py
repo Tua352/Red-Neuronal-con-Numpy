@@ -11,14 +11,14 @@ and omits many desirable features.
 
 #### Libraries
 # Standard library
-import random
+import random #Esta libreria sirve para meter valores aleatorios.
 
 # Third-party libraries
-import numpy as np
+import numpy as np #En este punto se introduciran matrices, funciones matematicas y tambien se vectores
 
-class Network(object):
+class Network(object): #Definimos ala clase de object que sera en este caso network
 
-    def __init__(self, sizes):
+    def __init__(self, sizes): #aca tendremos un objet definido por dos variables
         """The list ``sizes`` contains the number of neurons in the
         respective layers of the network.  For example, if the list
         was [2, 3, 1] then it would be a three-layer network, with the
@@ -29,20 +29,21 @@ class Network(object):
         layer is assumed to be an input layer, and by convention we
         won't set any biases for those neurons, since biases are only
         ever used in computing the outputs from later layers."""
-        self.num_layers = len(sizes)
-        self.sizes = sizes
-        self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
-        self.weights = [np.random.randn(y, x)
+        self.num_layers = len(sizes)# numeros de capas que tendra mediante su longitud
+        self.sizes = sizes #guarda sus longitudes en las capas
+        self.biases = [np.random.randn(y, 1) for y in sizes[1:]]#En network se inicia por sus pesos y bias
+        self.weights = [np.random.randn(y, x)#En network se inicia por sus pesos y bias
                         for x, y in zip(sizes[:-1], sizes[1:])]
 
-    def feedforward(self, a):
+    def feedforward(self, a): #Esta procesa las capas mediante sus funciones, bias y pesos, y regresa a la red
         """Return the output of the network if ``a`` is input."""
         for b, w in zip(self.biases, self.weights):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
     def SGD(self, training_data, epochs, mini_batch_size, eta,
-            test_data=None):
+            test_data=None):    #Aqui inicia el proceso de aprendizaje 
+        #el spoch incia su proceso de entrenar para que el mini_batch lo tenga del tamano indicado
         """Train the neural network using mini-batch stochastic
         gradient descent.  The ``training_data`` is a list of tuples
         ``(x, y)`` representing the training inputs and the desired
@@ -63,14 +64,14 @@ class Network(object):
                 training_data[k:k+mini_batch_size]
                 for k in range(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
-                self.update_mini_batch(mini_batch, eta)
+                self.update_mini_batch(mini_batch, eta)#actualizamos el pesos y bias para que este descaiga la gradiente gracias al mini_batch
             if test_data:
                 print("Epoch {0}: {1} / {2}".format(
                     j, self.evaluate(test_data), n_test))
             else:
                 print("Epoch {0} complete".format(j))
 
-    def update_mini_batch(self, mini_batch, eta):
+    def update_mini_batch(self, mini_batch, eta): # utilizando el mini_batch su peso y orientacion se actualiza
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
@@ -86,7 +87,7 @@ class Network(object):
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
 
-    def backprop(self, x, y):
+    def backprop(self, x, y): #De la red neuronal este calcula su gradiente de costo, esto actualiza los nuevos parametros de su entrenamiento
         """Return a tuple ``(nabla_b, nabla_w)`` representing the
         gradient for the cost function C_x.  ``nabla_b`` and
         ``nabla_w`` are layer-by-layer lists of numpy arrays, similar
@@ -121,7 +122,7 @@ class Network(object):
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
         return (nabla_b, nabla_w)
 
-    def evaluate(self, test_data):
+    def evaluate(self, test_data):#Evalua la red de prueba y nos dice el total de sus predicciones
         """Return the number of test inputs for which the neural
         network outputs the correct result. Note that the neural
         network's output is assumed to be the index of whichever
@@ -130,16 +131,16 @@ class Network(object):
                         for (x, y) in test_data]
         return sum(int(x == y) for (x, y) in test_results)
 
-    def cost_derivative(self, output_activations, y):
+    def cost_derivative(self, output_activations, y):#deriva la funcion de costo en la red
         """Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
         return (output_activations-y)
 
 #### Miscellaneous functions
-def sigmoid(z):
+def sigmoid(z):#calcula la sigmoide
     """The sigmoid function."""
     return 1.0/(1.0+np.exp(-z))
 
-def sigmoid_prime(z):
+def sigmoid_prime(z): #calcula la sigmoide
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
