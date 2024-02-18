@@ -1,3 +1,4 @@
+#Tuve problemas con el push este si es el bueno caray 
 import  mnist_loader
 import network
 import pickle 

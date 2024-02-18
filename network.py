@@ -1,5 +1,5 @@
 #Actualizacion 18 Feb CrossEntropy
-
+#Este si es el chido
 
 import random
 
