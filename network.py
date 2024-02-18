@@ -1,10 +1,15 @@
 #Actualizacion 18 Feb CrossEntropy
+
+
 import random
+
+
 import numpy as np
 
 class Network(object):
 
     def __init__(self, sizes):
+       
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
@@ -88,10 +93,27 @@ class Network(object):
         return (-1/n(( output_activations - y ) / (output_activations * (1 -output_activations ) ) )) #se calculo la derivada a mano 
 
 
-    def sigmoid(z):
+def sigmoid(z):
 
-        return 1.0/(1.0+np.exp(-z))
+    return 1.0/(1.0+np.exp(-z))
 
-    def sigmoid_prime(z):
+def sigmoid_prime(z):
 
-        return sigmoid(z)*(1-sigmoid(z))
+    return sigmoid(z)*(1-sigmoid(z))
+import  mnist_loader
+import network
+import pickle 
+training_data , test_data, _ = mnist_loader.load_data_wrapper()
+
+net = network.Network([784, 30, 10])
+net.SGD(training_data, 90, 10, 0.01, test_data=test_data)
+with open('miRed.pkl','wb') as file1:
+	pickle.dump(net,file1)
+exit()
+file1=open('miRed.pkl','rb')
+net2 = pickle.load(file1)
+
+
+a=aplana(Imagen)
+resultado = net.feedforward(a)
+print(resultado)
