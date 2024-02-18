@@ -1,15 +1,10 @@
 #Actualizacion 18 Feb CrossEntropy
-
-
 import random
-
-
 import numpy as np
 
 class Network(object):
 
     def __init__(self, sizes):
-       
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
@@ -93,10 +88,10 @@ class Network(object):
         return (-1/n(( output_activations - y ) / (output_activations * (1 -output_activations ) ) )) #se calculo la derivada a mano 
 
 
-def sigmoid(z):
+    def sigmoid(z):
 
-    return 1.0/(1.0+np.exp(-z))
+        return 1.0/(1.0+np.exp(-z))
 
-def sigmoid_prime(z):
+    def sigmoid_prime(z):
 
-    return sigmoid(z)*(1-sigmoid(z))
+        return sigmoid(z)*(1-sigmoid(z))
